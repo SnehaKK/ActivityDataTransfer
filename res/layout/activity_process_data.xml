@@ -25,7 +25,8 @@
             android:text="@string/result"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <LinearLayout
+        <RadioGroup
+            android:id="@+id/radioButton_processing_status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -42,15 +43,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/error" />
-        </LinearLayout>
-        
+        </RadioGroup>
+
         <Button
             android:id="@+id/button_complete_process"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="processData"
             android:text="@string/button_complete_process" />
-        
     </LinearLayout>
 
 </LinearLayout>

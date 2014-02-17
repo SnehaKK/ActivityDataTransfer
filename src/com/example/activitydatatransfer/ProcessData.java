@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.support.v4.app.NavUtils;
@@ -97,21 +98,30 @@ public class ProcessData extends Activity {
 				+ "\n" + message[3]);
 
 		// Check for the Radio button selected
-		RadioButton chkSelection = (RadioButton) findViewById(R.id.radioButton_success);
-		System.out.println(Boolean.toString(chkSelection.isSelected()));
+		RadioButton chkSuccess = (RadioButton) findViewById(R.id.radioButton_success);
+		RadioButton chkError = (RadioButton) findViewById(R.id.radioButton_error);
+		
+		System.out.println(Boolean.toString(chkSuccess.isSelected()));
 		System.out.println(Boolean.toString(findViewById(R.id.radioButton_error).isSelected()));
 		// if Success then go to Save Activity
-		if (chkSelection.isSelected()) {
+		RadioGroup rbg = (RadioGroup) findViewById(R.id.radioButton_processing_status);
+		int selectedRadioButton = rbg.getCheckedRadioButtonId();
+		
+		if (selectedRadioButton == chkSuccess.getId()) {
 			Intent saveDataIntent = new Intent(this, SaveData.class);
 			saveDataIntent.putExtra(MainActivity.CONTENT_ENTRY, message);
 			startActivity(saveDataIntent);
 		}
 		// if Error then go to the Main Activity and print error
-		else if (findViewById(R.id.radioButton_error).isSelected()) {
+		else if (selectedRadioButton == chkError.getId()) {
 			Intent errorIntent = new Intent(this, MainActivity.class);
 			errorIntent.putExtra(MainActivity.ERROR_ENTRY,
 					"Error in Processing data. Try again.");
 			startActivity(errorIntent);
+			Toast toast = Toast.makeText(getApplicationContext(),
+					"Error in processing.\nReason: 'Error'radio button was selected.",
+					Toast.LENGTH_SHORT);
+			toast.show();
 		} 
 		else {
 			// Toast message to Select Success or Error radio button
@@ -119,6 +129,12 @@ public class ProcessData extends Activity {
 					"Select 'Success' or 'Error' radio button",
 					Toast.LENGTH_SHORT);
 			toast.show();
+			/*
+			Intent mainActivityIntent = new Intent(this, MainActivity.class);
+			mainActivityIntent.putExtra(MainActivity.CONTENT_ENTRY,
+					"Exiting the current activity to go to the main screen.");
+			startActivity(mainActivityIntent);
+			*/
 		}
 	}
 
