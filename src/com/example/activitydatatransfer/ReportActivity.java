@@ -1,5 +1,7 @@
 package com.example.activitydatatransfer;
 
+import java.util.Map;
+
 import com.example.activitydatatransfer.DataContract.DataEntry;
 
 import android.os.Bundle;
@@ -11,7 +13,9 @@ import android.widget.TextView;
 import android.support.v4.app.NavUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
@@ -29,14 +33,27 @@ public class ReportActivity extends Activity {
 		sqliteView.setMovementMethod(new ScrollingMovementMethod());
 		TextView preferenceView =(TextView) findViewById(R.id.preference_content);
 		preferenceView.setMovementMethod(new ScrollingMovementMethod());
-		// Print all the data from SQLite and Preferences
-		getDataFromSqlite();
+		//Print all data from Shared Preferences
+		getSharedPreferenceData();
+		// Print all the data from SQLite
+		getDataFromSqliteData();
 		
 		// Show the Up button in the action bar.
 		setupActionBar();
 	}
+	
+	
+	public void getSharedPreferenceData(){
+		SharedPreferences preference= getSharedPreferences(SaveData.PREFERENCE_FILE_NAME, Context.MODE_PRIVATE);
+		Map<String, ?> allData= preference.getAll();
+		TextView preferenceView =(TextView) findViewById(R.id.preference_content);
+		for(Map.Entry<String, ?> entry:allData.entrySet())
+		{
+			preferenceView.append(entry.getValue().toString() +"\n");
+		}
+	}
 
-	public void getDataFromSqlite(){
+	public void getDataFromSqliteData(){
 		DataDbHelper dbHelper = new DataDbHelper(this);
 		SQLiteDatabase dbRead = dbHelper.getWritableDatabase();
 

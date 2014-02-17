@@ -1,5 +1,7 @@
 package com.example.activitydatatransfer;
 
+import java.util.UUID;
+
 import com.example.activitydatatransfer.DataContract.DataEntry;
 
 import android.os.Bundle;
@@ -11,18 +13,24 @@ import android.widget.Toast;
 import android.support.v4.app.NavUtils;
 import android.annotation.TargetApi;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 
 public class SaveData extends Activity {
 
+	public static final String PREFERENCE_FILE_NAME = "DataPreferenceFile";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_save_data);
+
 		// Show the Up button in the action bar.
 		setupActionBar();
+
 	}
 
 	/**
@@ -63,11 +71,19 @@ public class SaveData extends Activity {
 		// Get the data to be saved from the intent
 		Intent intent = getIntent();
 		String[] entry = intent.getStringArrayExtra(MainActivity.CONTENT_ENTRY);
-		System.out.println(entry[0] + "\n" + entry[1] + "\n" + entry[2] + "\n"
-				+ entry[3]);
+		
+		String value = "\nFirst Name: " + entry[0] + "\nLast Name: " + entry[1]
+				+ "\nAddress: " + entry[2] + "\n Credit Card Number: "
+				+ entry[3];
 
+		System.out.println(value);
+		
 		// Save the data using preference
-
+		SharedPreferences.Editor editor = this.getSharedPreferences(
+				PREFERENCE_FILE_NAME, Context.MODE_PRIVATE).edit();
+		editor.putString("Record_" + UUID.randomUUID(), value);
+		editor.commit();
+		
 		// go to the Main Activity
 		Intent mainActivityIntent = new Intent(this, MainActivity.class);
 		mainActivityIntent.putExtra(MainActivity.CONTENT_ENTRY,
@@ -103,36 +119,33 @@ public class SaveData extends Activity {
 					Toast.LENGTH_SHORT);
 			toast.show();
 		}
-		
+
 		/**
-		 *  Checking for the correct insertions
+		 * Checking for the correct insertions
 		 * 
-
-		SQLiteDatabase dbRead = dbHelper.getWritableDatabase();
-
-		// Define a projection that specifies which columns from the database
-		// you will actually use after this query.
-		String[] projection = { DataEntry._ID,
-				DataEntry.COLUMN_NAME_FIRST_NAME,
-				DataEntry.COLUMN_NAME_LAST_NAME, DataEntry.COLUMN_NAME_ADDRESS,
-				DataEntry.COLUMN_NAME_CC_NUMBER };
-		
-		Cursor c = dbRead.query(DataEntry.TABLE_NAME, projection, null, null,
-				null, null, null);
-		c.moveToFirst();
-		String[] data = new String[c.getCount() + 1];
-		System.out.println("Cursor Position"+c.getPosition() + " :Cursor Count " + c.getCount());
-		while (c.getPosition() < c.getCount()) {
-			data[c.getPosition() ] = "Id: " +c.getString(0) + "\nFirst Name: " + c.getString(1)
-					+ "\nLast Name: " + c.getString(2) + "\nAddress: " + c.getString(3) + "\n Credit Card Number: "
-					+ c.getString(4);
-
-			System.out.println(c.getString(0) + ":" + c.getString(1) + ":"
-					+ c.getString(2) + ":" + c.getString(3) + ":"
-					+ c.getString(4));
-			c.moveToNext();
-		}
-		*/
+		 * 
+		 * SQLiteDatabase dbRead = dbHelper.getWritableDatabase();
+		 * 
+		 * // Define a projection that specifies which columns from the database
+		 * // you will actually use after this query. String[] projection = {
+		 * DataEntry._ID, DataEntry.COLUMN_NAME_FIRST_NAME,
+		 * DataEntry.COLUMN_NAME_LAST_NAME, DataEntry.COLUMN_NAME_ADDRESS,
+		 * DataEntry.COLUMN_NAME_CC_NUMBER };
+		 * 
+		 * Cursor c = dbRead.query(DataEntry.TABLE_NAME, projection, null, null,
+		 * null, null, null); c.moveToFirst(); String[] data = new
+		 * String[c.getCount() + 1];
+		 * System.out.println("Cursor Position"+c.getPosition() +
+		 * " :Cursor Count " + c.getCount()); while (c.getPosition() <
+		 * c.getCount()) { data[c.getPosition() ] = "Id: " +c.getString(0) +
+		 * "\nFirst Name: " + c.getString(1) + "\nLast Name: " + c.getString(2)
+		 * + "\nAddress: " + c.getString(3) + "\n Credit Card Number: " +
+		 * c.getString(4);
+		 * 
+		 * System.out.println(c.getString(0) + ":" + c.getString(1) + ":" +
+		 * c.getString(2) + ":" + c.getString(3) + ":" + c.getString(4));
+		 * c.moveToNext(); }
+		 */
 		// go to the Main Activity
 		Intent mainActivityIntent = new Intent(this, MainActivity.class);
 		mainActivityIntent.putExtra(MainActivity.CONTENT_ENTRY,
