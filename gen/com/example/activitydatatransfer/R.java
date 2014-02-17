@@ -24,18 +24,18 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f080018;
+        public static final int action_settings=0x7f08001a;
         public static final int banner_main=0x7f080000;
         public static final int banner_process=0x7f08000d;
         public static final int banner_report=0x7f080012;
         public static final int banner_save=0x7f080017;
         public static final int button_close=0x7f08000c;
         public static final int button_complete_process=0x7f080011;
-        public static final int button_preferences=0x7f080013;
+        public static final int button_preferences=0x7f080018;
         public static final int button_process_data=0x7f080009;
         public static final int button_report_data=0x7f08000b;
         public static final int button_save_data=0x7f08000a;
-        public static final int button_sqlite=0x7f080015;
+        public static final int button_sqlite=0x7f080019;
         public static final int edit_address=0x7f080006;
         public static final int edit_cc_number=0x7f080008;
         public static final int edit_first_name=0x7f080002;
@@ -45,9 +45,11 @@ public final class R {
         public static final int enter_first_name=0x7f080001;
         public static final int enter_last_name=0x7f080003;
         public static final int preference_content=0x7f080014;
+        public static final int preferences=0x7f080013;
         public static final int radioButton_error=0x7f080010;
         public static final int radioButton_success=0x7f08000f;
         public static final int result=0x7f08000e;
+        public static final int sqlite=0x7f080015;
         public static final int sqlite_content=0x7f080016;
     }
     public static final class layout {
@@ -87,7 +89,9 @@ public final class R {
         public static final int error=0x7f05000c;
         public static final int hello_world=0x7f050005;
         public static final int preference_content=0x7f05000e;
+        public static final int preferences=0x7f05001e;
         public static final int result=0x7f05000a;
+        public static final int sqlite=0x7f05001f;
         public static final int sqlite_content=0x7f05000d;
         public static final int success=0x7f05000b;
         public static final int title_activity_process_data=0x7f050001;

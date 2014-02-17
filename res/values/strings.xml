@@ -35,5 +35,8 @@
     <string name="button_complete_process">Complete Process</string>
     <string name="button_preferences">Preferences</string>
     <string name="button_sqlite">SQLite</string>
+    
+    <string name="preferences">Preferences Data :</string>
+    <string name="sqlite">SQLite Data :</string>
 
 </resources>

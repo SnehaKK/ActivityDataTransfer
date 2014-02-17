@@ -67,7 +67,7 @@ public class ProcessData extends Activity {
 	 * Method to save the data from one intent to message.
 	 * 
 	 */
-	public void setIntentMessage() {
+	public void setIntentMessage(View view) {
 		Intent intent = getIntent();
 		String[] message = intent
 				.getStringArrayExtra(MainActivity.CONTENT_ENTRY);
@@ -98,7 +98,8 @@ public class ProcessData extends Activity {
 
 		// Check for the Radio button selected
 		RadioButton chkSelection = (RadioButton) findViewById(R.id.radioButton_success);
-
+		System.out.println(Boolean.toString(chkSelection.isSelected()));
+		System.out.println(Boolean.toString(findViewById(R.id.radioButton_error).isSelected()));
 		// if Success then go to Save Activity
 		if (chkSelection.isSelected()) {
 			Intent saveDataIntent = new Intent(this, SaveData.class);
@@ -111,14 +112,14 @@ public class ProcessData extends Activity {
 			errorIntent.putExtra(MainActivity.ERROR_ENTRY,
 					"Error in Processing data. Try again.");
 			startActivity(errorIntent);
-		} else {
+		} 
+		else {
 			// Toast message to Select Success or Error radio button
 			Toast toast = Toast.makeText(getApplicationContext(),
 					"Select 'Success' or 'Error' radio button",
 					Toast.LENGTH_SHORT);
 			toast.show();
 		}
-
 	}
 
 }

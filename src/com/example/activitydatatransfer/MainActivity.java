@@ -46,6 +46,8 @@ public class MainActivity extends Activity {
 		editText = (EditText) findViewById(R.id.edit_cc_number);
 		entry[3] = editText.getText().toString();
 
+		System.out.println("In the ProcessData().Entry values are " + entry[0]
+				+ ", " + entry[1] + ", " + entry[2] + ", " + entry[3]);
 		intent.putExtra(CONTENT_ENTRY, entry);
 		startActivity(intent);
 	}
@@ -54,8 +56,8 @@ public class MainActivity extends Activity {
 	 * To move to Save Data Activity
 	 * 
 	 */
-	public void saveData() {
-		
+	public void saveData(View view) {
+
 		String[] entry = new String[4];
 		Intent intent = new Intent(this, SaveData.class);
 		EditText editText;
@@ -71,6 +73,8 @@ public class MainActivity extends Activity {
 		editText = (EditText) findViewById(R.id.edit_cc_number);
 		entry[3] = editText.getText().toString();
 
+		System.out.println("In the SaveData().Entry values are " + entry[0]
+				+ ", " + entry[1] + ", " + entry[2] + ", " + entry[3]);
 		intent.putExtra(CONTENT_ENTRY, entry);
 		startActivity(intent);
 	}
@@ -78,19 +82,27 @@ public class MainActivity extends Activity {
 	/***
 	 * To go to Report Data Activity
 	 */
-	public void reportData() {
-		//Go to Report Activity 
+	public void reportData(View view) {
+		// Go to Report Activity
 		Intent intent = new Intent(this, ReportActivity.class);
 
 		intent.putExtra(CONTENT_ENTRY, "Passing intent to view the saved data");
 		startActivity(intent);
-		
+
 	}
 
 	/**
 	 * To close the application
 	 */
-	public void closeApp() {
+	public void closeApp(View view) {
 
+		Intent mainActivityIntent = new Intent(this, MainActivity.class);
+		mainActivityIntent.putExtra(MainActivity.CONTENT_ENTRY,
+				"Exiting the current acivity to go to the main screen.");
+		startActivity(mainActivityIntent);
+		/*
+		 * //Since this is not considered as a good practice I am setting the
+		 * intent to go to the home page. finish(); System.exit(0);
+		 */
 	}
 }

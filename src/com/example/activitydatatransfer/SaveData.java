@@ -1,13 +1,18 @@
 package com.example.activitydatatransfer;
 
+import com.example.activitydatatransfer.DataContract.DataEntry;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 import android.support.v4.app.NavUtils;
 import android.annotation.TargetApi;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 
 public class SaveData extends Activity {
@@ -77,8 +82,57 @@ public class SaveData extends Activity {
 		System.out.println(entry[0] + "\n" + entry[1] + "\n" + entry[2] + "\n"
 				+ entry[3]);
 		// Save the data using SQLite
+		DataDbHelper dbHelper = new DataDbHelper(this);
 
+		// Gets the data repository in write mode
+		SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+		// Create a new map of values, where column names are the keys
+		ContentValues values = new ContentValues();
+		values.put(DataEntry.COLUMN_NAME_FIRST_NAME, entry[0]);
+		values.put(DataEntry.COLUMN_NAME_LAST_NAME, entry[1]);
+		values.put(DataEntry.COLUMN_NAME_ADDRESS, entry[2]);
+		values.put(DataEntry.COLUMN_NAME_CC_NUMBER, entry[3]);
+
+		// Insert the new row, returning the primary key value of the new row
+		long newRowId;
+		newRowId = db.insert(DataEntry.TABLE_NAME, null, values);
+		if (newRowId == -1) {
+			Toast toast = Toast.makeText(this,
+					"Error in saving the file. Please try again! ",
+					Toast.LENGTH_SHORT);
+			toast.show();
+		}
 		
+		/**
+		 *  Checking for the correct insertions
+		 * 
+
+		SQLiteDatabase dbRead = dbHelper.getWritableDatabase();
+
+		// Define a projection that specifies which columns from the database
+		// you will actually use after this query.
+		String[] projection = { DataEntry._ID,
+				DataEntry.COLUMN_NAME_FIRST_NAME,
+				DataEntry.COLUMN_NAME_LAST_NAME, DataEntry.COLUMN_NAME_ADDRESS,
+				DataEntry.COLUMN_NAME_CC_NUMBER };
+		
+		Cursor c = dbRead.query(DataEntry.TABLE_NAME, projection, null, null,
+				null, null, null);
+		c.moveToFirst();
+		String[] data = new String[c.getCount() + 1];
+		System.out.println("Cursor Position"+c.getPosition() + " :Cursor Count " + c.getCount());
+		while (c.getPosition() < c.getCount()) {
+			data[c.getPosition() ] = "Id: " +c.getString(0) + "\nFirst Name: " + c.getString(1)
+					+ "\nLast Name: " + c.getString(2) + "\nAddress: " + c.getString(3) + "\n Credit Card Number: "
+					+ c.getString(4);
+
+			System.out.println(c.getString(0) + ":" + c.getString(1) + ":"
+					+ c.getString(2) + ":" + c.getString(3) + ":"
+					+ c.getString(4));
+			c.moveToNext();
+		}
+		*/
 		// go to the Main Activity
 		Intent mainActivityIntent = new Intent(this, MainActivity.class);
 		mainActivityIntent.putExtra(MainActivity.CONTENT_ENTRY,
